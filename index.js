@@ -22,7 +22,9 @@ function drawTodoCards(){
     let output = '';
     
     tasks.forEach((task, index) => {
-        output += drawCard(index, task)
+        if(task.status === 'todo'){
+            output += drawCard(index, task)
+        }
     });
     
     return output;
@@ -32,7 +34,21 @@ function drawDoingCards(){
     let output = '';
     
     tasks.forEach((task, index) => {
-        output += drawCard(index, task)
+        if(task.status === 'doing'){
+            output += drawCard(index, task)
+        }
+    });
+    
+    return output;
+}
+
+function drawDoneCards(){
+    let output = '';
+    
+    tasks.forEach((task, index) => {
+        if(task.status === 'done'){
+            output += drawCard(index, task)
+        }
     });
     
     return output;
@@ -40,3 +56,15 @@ function drawDoingCards(){
 
 document.getElementById('todo-cards').innerHTML = drawTodoCards();
 document.getElementById('doing-cards').innerHTML = drawDoingCards();
+document.getElementById('done-cards').innerHTML = drawDoneCards();
+
+document.getElementById('task-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const description = document.getElementById('task-description').value;
+    const status = document.getElementById('task-status').value;
+    tasks.push({description: description, status: status});
+    document.getElementById('task-description').value = '';
+    document.getElementById('todo-cards').innerHTML = drawTodoCards();
+    document.getElementById('doing-cards').innerHTML = drawDoingCards();
+    document.getElementById('done-cards').innerHTML = drawDoneCards();
+});
